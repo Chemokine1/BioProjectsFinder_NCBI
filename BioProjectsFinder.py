@@ -15,7 +15,7 @@ if len(sys.argv) < 2:
 
 # Assign command-line arguments to variables
 search_term = sys.argv[1]
-num_results = int(sys.argv[2]) if len(sys.argv) > 2 else 10  # Default to 10 results if not provided
+num_results = int(sys.argv[2]) if len(sys.argv) > 2 else 5  # Default to 5 results if not provided
 
 # Define the API key
 api_key = os.getenv('NCBI_API_KEY')
@@ -36,13 +36,15 @@ search_params = {
 search_response = requests.get(search_url, params=search_params)
 search_data = search_response.json()
 
-# Extract IDs from the search results
+# Get total number of results available
+total_records = int(search_data.get('esearchresult', {}).get('count', 0))
+
+# Extract IDs from the search results (limited by num_results)
 ids = search_data.get('esearchresult', {}).get('idlist', [])
 
-# Check the results
-print(f"Found {len(ids)} records.")
-if ids:
-    print("First few IDs:", ids[:5])
+# Print total records and number of records being processed
+print(f"Total records found in database: {total_records}")
+print(f"Processing {len(ids)} records as requested.")
 
 # List of BioProject IDs to process
 bioproject_ids = ids
@@ -61,11 +63,7 @@ for bioproject_id in bioproject_ids:
     if response.status_code == 200:
         soup = BeautifulSoup(response.content, 'html.parser')
         
-        # Extract the title from the correct HTML tag (adjust this based on actual page structure)
-        title_tag = soup.find('div', class_='rprt_all')
-        title = title_tag.find('h1').text.strip() if title_tag else "No Title Found"
-        
-        # Extract other details with safety checks
+        # Extract details with safety checks
         accession_tag = soup.find(string="Accession")
         accession = accession_tag.find_next("td").text.strip() if accession_tag else "N/A"
         
@@ -78,18 +76,13 @@ for bioproject_id in bioproject_ids:
         data_volume_tbytes_tag = soup.find(string="Data volume, Tbytes")
         data_volume_tbytes = data_volume_tbytes_tag.find_next("td").text.strip() if data_volume_tbytes_tag else "N/A"
 
-        # Append the extracted information to the list
+        # Append the extracted information to the list with more explicit column names
         projects_data.append({
-            "Title": title,
-            "Accession": accession,
-            "SRA Experiments": sra_experiments,
-            "Data Volume (Gbases)": data_volume_gbases,
-            "Data Volume (Tbytes)": data_volume_tbytes
+            "AccID": accession,
+            "Experiments": sra_experiments,
+            "Sequence_Data_Gb": data_volume_gbases,
+            "Storage_Size_Tb": data_volume_tbytes
         })
-        
-        # Debugging: Print the title and BioProject ID
-        print(f"Processed BioProject ID: {bioproject_id}, Title: {title}")
-        
     else:
         print(f"Failed to retrieve details for BioProject ID: {bioproject_id}")
 
@@ -116,4 +109,3 @@ full_path = os.path.join(results_folder, filename)
 df.to_csv(full_path, index=False)
 
 print(f"Results saved to {full_path}")
-print(f"Results saved to {filename}")
