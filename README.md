@@ -34,3 +34,10 @@ Processing 12 records as requested.
 11  PRJNA1153494           8              N/A             N/A
 Results saved to User_path/BioProjectFinder_microbiome_cancer_12.csv
 ```
+### Column Description
+```
+AccID: Project identifier (PRJNA*/PRJEB*)
+Exps: Number of sequencing samples (fastq files)
+Gb: Total sequence data in gigabases 
+Tb: Storage size in terabytes
+```
