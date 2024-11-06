@@ -1,7 +1,7 @@
 # BioProjectsFinder_NCBI
 
-This script retrieves BioProject data from NCBI and ENA databases based on a search terms. Allowing data scientists to filter research based on projects data. Returns the newest matching projects first, based on keywords.
-The results, including project titles, accession numbers, and data volumes, are saved as a CSV file.
+This script retrieves BioProject data from NCBI and ENA databases based on a search terms. Allowing scientists to filter researches based on projects data. Returns the newest matching projects first, based on keywords.
+The results including Project identifier,  number of sequencing samples, total sequence data, storage size in terabytes, and save the results as a csv file.
 
 ## Dependencies
 - `requests`
@@ -37,7 +37,7 @@ Results saved to User_path/BioProjectFinder_microbiome_cancer_12.csv
 ### Column Description
 ```
 AccID: Project identifier (PRJNA*/PRJEB*)
-Exps: Number of sequencing samples (fastq files)
-Gb: Total sequence data in gigabases 
-Tb: Storage size in terabytes
+Experiments: Number of sequencing samples (fastq files)
+Sequence_Data_Gb: Total sequence data in gigabases 
+Storage_Size_Tb: Storage size in terabytes
 ```
