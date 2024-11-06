@@ -1,6 +1,6 @@
 # BioProjectsFinder_NCBI
 
-This script retrieves BioProject data from NCBI based on a search term, allowing users to filter research projects by data volume, useful for big data analysis.
+This script retrieves BioProject data from NCBI and ENA databases based on a search terms. Allowing data scientists to filter research based on projects data. Returns the newest matching projects first, based on keywords.
 The results, including project titles, accession numbers, and data volumes, are saved as a CSV file.
 
 ## Dependencies
