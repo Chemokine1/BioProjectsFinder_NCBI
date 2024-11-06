@@ -16,6 +16,7 @@ python bio_projects_search_and_details.py "<search_term>" [<num_results>]
 python BioProjectsFinder.py "microbiome cancer" 12
 
 ### Output 
+```
 Total records found in database: 778
 Processing 12 records as requested.
            AccID Experiments Sequence_Data_Gb Storage_Size_Tb
@@ -32,3 +33,4 @@ Processing 12 records as requested.
 10  PRJNA1153928          44              132             N/A
 11  PRJNA1153494           8              N/A             N/A
 Results saved to User_path/BioProjectFinder_microbiome_cancer_12.csv
+```
